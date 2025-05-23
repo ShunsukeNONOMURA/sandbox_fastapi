@@ -1,8 +1,13 @@
 https://github.com/ShunsukeNONOMURA/test_image_build
+https://github.com/users/ShunsukeNONOMURA/packages/container/package/my-app
 
-```
+```bash
 # dev
 docker compose up
 # build
 docker build -f docker/release/Dockerfile -t myapp:release .
+```
+
+```bash
+docker pull 
 ```

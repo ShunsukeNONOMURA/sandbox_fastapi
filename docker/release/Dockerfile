@@ -48,4 +48,5 @@ COPY --from=builder /root/volume /root/volume
 COPY --from=builder /usr/local/lib/python3.10 /usr/local/lib/python3.10
 
 # 実行コマンド（リロードは不要）
-CMD ["uvicorn", "main:app", "--host=0.0.0.0", "--port=80"]
+# CMD ["poetry", "run", "uvicorn", "main:app", "--host=0.0.0.0", "--port=80"]
+CMD ["python", "-m", "uvicorn", "main:app", "--host=0.0.0.0", "--port=80"]
