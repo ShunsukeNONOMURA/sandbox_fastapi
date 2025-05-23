@@ -9,5 +9,5 @@ docker build -f docker/release/Dockerfile -t myapp:release .
 ```
 
 ```bash
-docker pull 
+docker pull ghcr.io/shunsukenonomura/my-app:latest
 ```
