@@ -32,6 +32,10 @@ RUN poetry install --only main --no-root
 # アプリケーションコードコピー
 COPY volume/ .
 
+# 暗号化ビルド(ランタイム構成＋難読化)
+RUN pyarmor gen runtime && \
+    pyarmor gen -O dist app/
+
 # ----------- Release stage -------------
 FROM python:3.10-slim
 
@@ -44,9 +48,11 @@ ENV TERM xterm
 WORKDIR /root/volume
 
 # builderから必要なものだけコピー
-COPY --from=builder /root/volume /root/volume 
+COPY --from=builder /root/volume/dist /root/volume 
 COPY --from=builder /usr/local/lib/python3.10 /usr/local/lib/python3.10
 
 # 実行コマンド（リロードは不要）
 # CMD ["poetry", "run", "uvicorn", "main:app", "--host=0.0.0.0", "--port=80"]
-CMD ["python", "-m", "uvicorn", "main:app", "--host=0.0.0.0", "--port=80"]
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host=0.0.0.0", "--port=80"]
+
+EXPOSE 80

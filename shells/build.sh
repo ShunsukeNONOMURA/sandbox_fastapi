@@ -1,0 +1,1 @@
+docker build -f docker/release/Dockerfile -t myapp:release .
