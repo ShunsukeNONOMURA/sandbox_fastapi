@@ -58,6 +58,7 @@ jobs:
         set -o allexport
         source ../.env_dev
         set +o allexport
+        poetry run python3 ./migrate.py
         poetry run pytest --cov=app -v --cov-report=html
 
     # pushファイル統合
