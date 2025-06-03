@@ -1,5 +1,5 @@
 # .github/workflows/delete-version.yml
-name: Delete version directory from gh-pages
+name: Delete version
 
 on:
   workflow_dispatch:
