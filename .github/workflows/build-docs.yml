@@ -32,19 +32,6 @@ jobs:
       run: |
         poetry install --no-root
 
-
-    # github secretsに登録するほうがセキュリティ上良い
-    - name: Load .env_dev into GITHUB_ENV
-      run: |
-        while IFS='=' read -r key value; do
-          key=$(echo "$key" | xargs)
-          value=$(echo "$value" | sed -e 's/^"\(.*\)"$/\1/' | xargs)
-          if [[ ! "$key" =~ ^# && -n "$key" ]]; then
-            echo "$key=$value" >> "$GITHUB_ENV"
-          fi
-        done < .env_dev
-      shell: bash
-
     # リリースディレクトリ設定
     - name: Get branch name and output path
       id: vars
@@ -59,6 +46,9 @@ jobs:
     - name: Build ReDoc
       working-directory: ./volume
       run: |
+        set -o allexport
+        source ../.env_dev
+        set +o allexport
         poetry run python build_redoc.py
 
     # pytest cov ビルド
