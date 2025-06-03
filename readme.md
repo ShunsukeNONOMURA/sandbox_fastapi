@@ -14,6 +14,7 @@
 - gh cr の公開コンテナ
     - https://github.com/users/ShunsukeNONOMURA/packages/container/package/my-app
 - gh pages
+    - [pagesのブランチ](https://github.com/ShunsukeNONOMURA/sandbox_fastapi/tree/gh-pages)
     - mainブランチの生成docs
         - [redoc](https://shunsukenonomura.github.io/sandbox_fastapi/branches/main/redoc/api.html)
         - [pytest cov](https://shunsukenonomura.github.io/sandbox_fastapi/branches/main/htmlcov)
