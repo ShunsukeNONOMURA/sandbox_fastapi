@@ -1,4 +1,4 @@
-name: Build and Deploy ReDoc
+name: Build Version gh pages
 
 on:
   push:

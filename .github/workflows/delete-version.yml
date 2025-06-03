@@ -1,5 +1,4 @@
-# .github/workflows/delete-version.yml
-name: Delete version
+name: Delete Version
 
 on:
   workflow_dispatch:
