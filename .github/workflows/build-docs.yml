@@ -34,14 +34,16 @@ jobs:
 
 
     # github secretsに登録するほうがセキュリティ上良い
-    - name: Copy .env_dev to volume/.env
-      run: cp .env_dev volume/.env
-
-    - name: Debug env vars
-      working-directory: ./volume
+    - name: Load .env_dev into GITHUB_ENV
       run: |
-        echo "SQLALCHEMY_DATABASE=$SQLALCHEMY_DATABASE"
-        echo "SQLALCHEMY_DATABASE_SQLITE_URI=$SQLALCHEMY_DATABASE_SQLITE_URI"
+        while IFS='=' read -r key value; do
+          key=$(echo "$key" | xargs)
+          value=$(echo "$value" | sed -e 's/^"\(.*\)"$/\1/' | xargs)
+          if [[ ! "$key" =~ ^# && -n "$key" ]]; then
+            echo "$key=$value" >> "$GITHUB_ENV"
+          fi
+        done < .env_dev
+      shell: bash
 
     # リリースディレクトリ設定
     - name: Get branch name and output path
