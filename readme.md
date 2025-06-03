@@ -16,8 +16,8 @@
 - gh pages
     - [pagesのブランチ](https://github.com/ShunsukeNONOMURA/sandbox_fastapi/tree/gh-pages)
     - mainブランチの生成docs
-        - [redoc](https://shunsukenonomura.github.io/sandbox_fastapi/branches/main/redoc/api.html)
-        - [pytest cov](https://shunsukenonomura.github.io/sandbox_fastapi/branches/main/htmlcov)
+        - [redoc](https://shunsukenonomura.github.io/sandbox_fastapi/versions/main/redoc/api.html)
+        - [pytest cov](https://shunsukenonomura.github.io/sandbox_fastapi/versions/main/htmlcov)
 
 ## 利用方法メモ
 ```bash
