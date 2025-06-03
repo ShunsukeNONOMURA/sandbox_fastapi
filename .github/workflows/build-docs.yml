@@ -40,6 +40,9 @@ jobs:
         safe_branch=$(echo "$branch" | sed 's#/#-#g')
         echo "output=branches/${safe_branch}" >> $GITHUB_OUTPUT
 
+    # schemaspyビルド　まだ
+
+
     # redocビルド
     - name: Build ReDoc
       working-directory: ./volume
