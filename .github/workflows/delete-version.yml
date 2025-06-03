@@ -13,6 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # main と gh-pages は誤って削除しないようにする
+      - name: Guard protected refs
+        run: |
+          name="${{ github.event.inputs.version_subpath }}"
+          if [[ "$name" == "main" || "$name" == "gh-pages" ]]; then
+            echo "ERROR: '$name' is protected and cannot be deleted."
+            exit 1
+          fi
+      
       # 不要なブランチ　もしくは　タグの削除
       - name: Attempt to delete both branch and tag refs
         env:
