@@ -37,7 +37,13 @@ jobs:
     - name: Copy .env_dev to volume/.env
       run: cp .env_dev volume/.env
 
-    # ブランチ設定
+    - name: Debug env vars
+      working-directory: ./volume
+      run: |
+        echo "SQLALCHEMY_DATABASE=$SQLALCHEMY_DATABASE"
+        echo "SQLALCHEMY_DATABASE_SQLITE_URI=$SQLALCHEMY_DATABASE_SQLITE_URI"
+
+    # リリースディレクトリ設定
     - name: Get branch name and output path
       id: vars
       run: |
