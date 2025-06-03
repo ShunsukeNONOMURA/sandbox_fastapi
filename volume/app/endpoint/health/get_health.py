@@ -4,4 +4,4 @@ from app.endpoint.health.router import router
     "/health"
 )
 async def get_health():
-    return {"message": "green"}
+    return {"status": "green"}

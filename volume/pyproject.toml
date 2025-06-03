@@ -12,8 +12,30 @@ fastapi = "^0.115.12"
 gradio = "^5.31.0"
 pyarmor = "^9.1.7"
 fastapi-mcp = "^0.3.4"
+sqlmodel = "^0.0.24"
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.0"
+pytest-cov = "^6.1.1"
+ruff = "^0.11.12"
+pip-licenses = "^5.0.0"
+piptree = "^0.1.4"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning" # Deprecatedによる警告を無視する
+]
+
+[tool.coverage.report]
+# 以下の項目についてのcoverageをスキップ
+exclude_lines = [
+    "pass",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+omit = [
+]

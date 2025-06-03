@@ -6,4 +6,4 @@ from app.endpoint.user.router import router
 async def get_user(
     user_id: str,
 ):
-    return {"message": user_id}
+    return {"user_id": user_id}
