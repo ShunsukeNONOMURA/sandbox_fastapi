@@ -4,14 +4,14 @@
 
 - pyarmorによる難読化
 - github actionsによるCI
-    - コンテナイメージのghrへの公開
-    - gh pagesへのビルドドキュメント公開
+    - コンテナイメージのghcrへの公開
+    - ghpagesへのビルドドキュメント公開
 
 
 ## リンク
-https://github.com/ShunsukeNONOMURA/test_image_build
+https://github.com/ShunsukeNONOMURA/sandbox_fastapi
 https://github.com/users/ShunsukeNONOMURA/packages/container/package/my-app
-https://shunsukenonomura.github.io/test_image_build/api.html
+https://shunsukenonomura.github.io/sandbox_fastapi/api.html
 
 
 ## 利用方法メモ

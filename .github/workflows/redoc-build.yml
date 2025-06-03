@@ -9,6 +9,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -32,9 +33,13 @@ jobs:
       run: |
         poetry install --no-root
 
+    # github secretsに登録するほうがセキュリティ上良い
     - name: Build ReDoc
       working-directory: ./volume
       run: |
+        set -o allexport
+        source ../.env_dev
+        set +o allexport
         poetry run python build_redoc.py
 
     - name: Deploy to GitHub Pages
