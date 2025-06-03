@@ -4,8 +4,8 @@ name: Delete version directory from gh-pages
 on:
   workflow_dispatch:
     inputs:
-      version_path:
-        description: 'Path to delete under gh-pages (e.g. versions/feature/foo or versions/v1.0.0)'
+      version_subpath:
+        description: 'Subdirectory under versions/ to delete (e.g. feature/hoge or v1.0.0)'
         required: true
 
 jobs:
@@ -13,6 +13,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 不要なブランチ　もしくは　タグの削除
+      - name: Attempt to delete both branch and tag refs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          name="${{ github.event.inputs.version_subpath }}"
+
+          echo "Attempting to delete branch: $name"
+          gh api -X DELETE "repos/${{ github.repository }}/git/refs/heads/$name" || echo "No such branch"
+
+          echo "Attempting to delete tag: $name"
+          gh api -X DELETE "repos/${{ github.repository }}/git/refs/tags/$name" || echo "No such tag"
+
+      # versionsドキュメントの削除
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:
@@ -25,8 +39,8 @@ jobs:
 
       - name: Delete directory
         run: |
-          path="${{ github.event.inputs.version_path }}"
-          echo "Removing directory: $path"
-          git rm -r --ignore-unmatch "$path" || echo "No such directory"
-          git commit -m "Remove $path from gh-pages" || echo "Nothing to commit"
+          safe_path="versions/${{ github.event.inputs.version_subpath }}"
+          echo "Deleting directory: $safe_path"
+          git rm -r --ignore-unmatch "$safe_path" || echo "Directory not found"
+          git commit -m "Remove $safe_path from gh-pages" || echo "Nothing to commit"
           git push origin gh-pages
