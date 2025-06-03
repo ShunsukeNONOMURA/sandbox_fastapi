@@ -41,7 +41,6 @@ jobs:
         echo "branch=$safe_branch" >> $GITHUB_OUTPUT
         echo "output=branches/${safe_branch}" >> $GITHUB_OUTPUT
 
-
     # redocビルド
     - name: Build ReDoc
       working-directory: ./volume
@@ -66,8 +65,8 @@ jobs:
       run: |
         mkdir -p tmp_deploy/${{ steps.vars.outputs.output }}/redoc
         mkdir -p tmp_deploy/${{ steps.vars.outputs.output }}/htmlcov
-        mv volume/docs/backend tmp_deploy/${{ steps.vars.outputs.output }}/redoc/
-        mv volume/htmlcov tmp_deploy/${{ steps.vars.outputs.output }}/htmlcov/
+        cp -r volume/docs/backend/* tmp_deploy/${{ steps.vars.outputs.output }}/redoc/
+        cp -r volume/htmlcov/* tmp_deploy/${{ steps.vars.outputs.output }}/htmlcov/
 
     # push
     - name: Deploy to GitHub Pages
