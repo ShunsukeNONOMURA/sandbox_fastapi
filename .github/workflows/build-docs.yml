@@ -1,0 +1,83 @@
+name: Build and Deploy ReDoc
+
+on:
+  push:
+    branches-ignore:
+      - gh-pages
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+      env:
+        POETRY_HOME: /opt/poetry
+
+    - name: Add Poetry to PATH
+      run: echo "PATH=$PATH:/opt/poetry/bin" >> $GITHUB_ENV
+
+    - name: Install dependencies with Poetry
+      working-directory: ./volume
+      run: |
+        poetry install --no-root
+
+
+    # github secretsに登録するほうがセキュリティ上良い
+    - name: Load environment variables
+      run: |
+        set -o allexport
+        source .env_dev
+        set +o allexport
+      shell: bash
+
+
+    # ブランチ設定
+    - name: Get branch name and output path
+      id: vars
+      run: |
+        branch="${GITHUB_REF#refs/heads/}"
+        safe_branch=$(echo "$branch" | sed 's#/#-#g')
+        echo "branch=$safe_branch" >> $GITHUB_OUTPUT
+        echo "output=branches/${safe_branch}" >> $GITHUB_OUTPUT
+
+
+    # redocビルド
+    - name: Build ReDoc
+      working-directory: ./volume
+      run: |
+        poetry run python build_redoc.py
+
+    # pytest cov ビルド
+    - name: Run Pytest and generate coverage report
+      working-directory: ./volume
+      run: |
+        poetry run pytest --cov=app -v --cov-report=html
+
+    # pushファイル統合
+    - name: Prepare deploy directory
+      run: |
+        mkdir -p tmp_deploy/${{ steps.vars.outputs.output }}/redoc
+        mkdir -p tmp_deploy/${{ steps.vars.outputs.output }}/htmlcov
+        mv volume/docs/backend tmp_deploy/${{ steps.vars.outputs.output }}/redoc/
+        mv volume/htmlcov tmp_deploy/${{ steps.vars.outputs.output }}/htmlcov/
+
+    # push
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: tmp_deploy # 出力先ディレクトリ
+        publish_branch: gh-pages
+        destination_dir: ${{ steps.vars.outputs.output }}
+        force_orphan: false
