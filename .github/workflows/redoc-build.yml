@@ -38,7 +38,7 @@ jobs:
       run: |
         branch="${GITHUB_REF#refs/heads/}"
         safe_branch=$(echo "$branch" | sed 's#/#-#g')
-        echo "branch=$safe_branch" >> $GITHUB_OUTPUT
+        echo "branch_path=${safe_branch}/redoc" >> $GITHUB_OUTPUT
 
     # github secretsに登録するほうがセキュリティ上良い
     - name: Build ReDoc
@@ -55,5 +55,5 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: volume/docs/backend  # 出力先ディレクトリ
         publish_branch: gh-pages
-        destination_dir: ${{ steps.vars.outputs.branch }}
+        destination_dir: ${{ steps.vars.outputs.branch_path }}
         force_orphan: false
