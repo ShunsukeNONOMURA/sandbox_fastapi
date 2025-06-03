@@ -1,10 +1,6 @@
 version: '3'
 services:
-  # app:
-  #   # build: .
-  #   # image: ghcr.io/shunsukenonomura/my-app:latest
-  #   tty: true
-
+  # FastAPI
   app:
     build: 
       context: .
