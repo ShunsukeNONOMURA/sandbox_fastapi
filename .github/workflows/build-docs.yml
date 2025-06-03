@@ -44,9 +44,7 @@ jobs:
           echo "output=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
         else
           echo "output=unknown" >> $GITHUB_OUTPUT
-
-    # schemaspyビルド　まだ
-
+        fi
 
     # redocビルド
     - name: Build ReDoc
