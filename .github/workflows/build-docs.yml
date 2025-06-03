@@ -4,6 +4,8 @@ on:
   push:
     branches-ignore:
       - gh-pages
+    tags:
+      - 'v*'
 
 jobs:
   build-and-deploy:
@@ -33,12 +35,15 @@ jobs:
         poetry install --no-root
 
     # リリースディレクトリ設定
-    - name: Get branch name and output path
+    - name: Set output path from ref
       id: vars
       run: |
-        branch="${GITHUB_REF#refs/heads/}"
-        safe_branch=$(echo "$branch" | sed 's#/#-#g')
-        echo "output=branches/${safe_branch}" >> $GITHUB_OUTPUT
+        if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
+          echo "output=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+        elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+          echo "output=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        else
+          echo "output=unknown" >> $GITHUB_OUTPUT
 
     # schemaspyビルド　まだ
 
