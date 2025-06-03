@@ -55,6 +55,9 @@ jobs:
     - name: Run Pytest and generate coverage report
       working-directory: ./volume
       run: |
+        set -o allexport
+        source ../.env_dev
+        set +o allexport
         poetry run pytest --cov=app -v --cov-report=html
 
     # pushファイル統合
