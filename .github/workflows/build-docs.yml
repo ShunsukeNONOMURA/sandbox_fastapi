@@ -38,7 +38,6 @@ jobs:
       run: |
         branch="${GITHUB_REF#refs/heads/}"
         safe_branch=$(echo "$branch" | sed 's#/#-#g')
-        echo "branch=$safe_branch" >> $GITHUB_OUTPUT
         echo "output=branches/${safe_branch}" >> $GITHUB_OUTPUT
 
     # redocビルド
@@ -63,10 +62,10 @@ jobs:
     # pushファイル統合
     - name: Prepare deploy directory
       run: |
-        mkdir -p tmp_deploy/${{ steps.vars.outputs.output }}/redoc
-        mkdir -p tmp_deploy/${{ steps.vars.outputs.output }}/htmlcov
-        cp -r volume/docs/backend/* tmp_deploy/${{ steps.vars.outputs.output }}/redoc/
-        cp -r volume/htmlcov/* tmp_deploy/${{ steps.vars.outputs.output }}/htmlcov/
+        mkdir -p tmp_deploy/redoc
+        mkdir -p tmp_deploy/htmlcov
+        cp -r volume/docs/backend/* tmp_deploy/redoc/
+        cp -r volume/htmlcov/* tmp_deploy/htmlcov/
 
     # push
     - name: Deploy to GitHub Pages
