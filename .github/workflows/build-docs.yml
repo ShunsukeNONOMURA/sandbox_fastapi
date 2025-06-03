@@ -34,13 +34,15 @@ jobs:
 
 
     # github secretsに登録するほうがセキュリティ上良い
-    - name: Load environment variables
+    - name: Load .env_dev into GITHUB_ENV
+      working-directory: ./volume
       run: |
-        set -o allexport
-        source .env_dev
-        set +o allexport
+        while IFS='=' read -r key value; do
+          if [[ ! "$key" =~ ^# && -n "$key" ]]; then
+            echo "$key=$value" >> "$GITHUB_ENV"
+          fi
+        done < .env_dev
       shell: bash
-
 
     # ブランチ設定
     - name: Get branch name and output path
