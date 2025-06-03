@@ -2,8 +2,8 @@ name: Build and Deploy ReDoc
 
 on:
   push:
-    branches:
-      - main
+    branches-ignore:
+      - gh-pages
 
 jobs:
   build-and-deploy:
@@ -33,6 +33,13 @@ jobs:
       run: |
         poetry install --no-root
 
+    - name: Get branch name and normalize
+      id: vars
+      run: |
+        branch="${GITHUB_REF#refs/heads/}"
+        safe_branch=$(echo "$branch" | sed 's#/#-#g')
+        echo "branch=$safe_branch" >> $GITHUB_OUTPUT
+
     # github secretsに登録するほうがセキュリティ上良い
     - name: Build ReDoc
       working-directory: ./volume
@@ -48,4 +55,5 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: volume/docs/backend  # 出力先ディレクトリ
         publish_branch: gh-pages
-        force_orphan: true
+        destination_dir: ${{ steps.vars.outputs.branch }}
+        force_orphan: false
