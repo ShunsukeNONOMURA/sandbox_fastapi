@@ -7,6 +7,10 @@
     - コンテナイメージのghcrへの公開
     - ghpagesへのビルドドキュメント公開
         - `/{ブランチ}/{ビルド項目}` で分離
+    - [手動掃除](https://github.com/ShunsukeNONOMURA/sandbox_fastapi/actions/workflows/delete-version.yml)
+        - ブランチ名orタグ名指定
+        - ブランチorタグ削除
+        - ghpagesの対応ファイル削除
 
 ## リンク
 - 本リポジトリ
