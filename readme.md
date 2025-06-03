@@ -12,8 +12,7 @@
 ## リンク
 https://github.com/ShunsukeNONOMURA/sandbox_fastapi
 https://github.com/users/ShunsukeNONOMURA/packages/container/package/my-app
-https://shunsukenonomura.github.io/sandbox_fastapi/main/redoc/api.html
-
+https://shunsukenonomura.github.io/sandbox_fastapi/branches/main/redoc/api.html
 
 ## 利用方法メモ
 ```bash
