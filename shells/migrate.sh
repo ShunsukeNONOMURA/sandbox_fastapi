@@ -1,0 +1,1 @@
+docker compose exec app poetry run python3 ./migrate.py 

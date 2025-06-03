@@ -1,0 +1,1 @@
+docker compose exec app poetry run pytest --cov=app -v --cov-report=html 

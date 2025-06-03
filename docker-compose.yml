@@ -9,6 +9,8 @@ services:
     tty: true
     volumes:
       - ./volume:/root/volume
+    env_file:
+      - .env
     ports:
       - 8000:8000
     extra_hosts: # linux環境の場合にhost.docker.internalでhost上にアクセスするために必要

@@ -1,3 +1,6 @@
+# RDB
+*.sqlite3
+
 # docs
 docs
 

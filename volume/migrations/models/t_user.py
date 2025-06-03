@@ -1,6 +1,8 @@
 from sqlmodel import Field, SQLModel
 
-class TUser(SQLModel, table=True):
+from migrations.models.base import BaseTable
+
+class TUser(BaseTable, table=True):
     __tablename__ = "t_user"
 
     user_id: str = Field(
