@@ -35,7 +35,6 @@ jobs:
 
     # github secretsに登録するほうがセキュリティ上良い
     - name: Load .env_dev into GITHUB_ENV
-      working-directory: ./volume
       run: |
         while IFS='=' read -r key value; do
           if [[ ! "$key" =~ ^# && -n "$key" ]]; then
