@@ -18,6 +18,11 @@ jobs:
         with:
           ref: gh-pages
 
+      - name: Set git user identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Delete directory
         run: |
           path="${{ github.event.inputs.version_path }}"
