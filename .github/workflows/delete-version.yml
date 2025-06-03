@@ -1,0 +1,27 @@
+# .github/workflows/delete-version.yml
+name: Delete version directory from gh-pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_path:
+        description: 'Path to delete under gh-pages (e.g. versions/feature/foo or versions/v1.0.0)'
+        required: true
+
+jobs:
+  delete-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Delete directory
+        run: |
+          path="${{ github.event.inputs.version_path }}"
+          echo "Removing directory: $path"
+          git rm -r --ignore-unmatch "$path" || echo "No such directory"
+          git commit -m "Remove $path from gh-pages" || echo "Nothing to commit"
+          git push origin gh-pages
