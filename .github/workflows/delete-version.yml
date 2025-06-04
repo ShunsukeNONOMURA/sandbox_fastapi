@@ -20,6 +20,10 @@ jobs:
             echo "ERROR: '$name' is protected and cannot be deleted."
             exit 1
           fi
+          if [[ "$name" == v* ]]; then
+            echo "ERROR: Version tag or branch starting with 'v' is protected: $name"
+            exit 1
+          fi
       
       # 不要なブランチ　もしくは　タグの削除
       - name: Attempt to delete both branch and tag refs
