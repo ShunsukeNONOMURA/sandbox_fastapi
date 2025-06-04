@@ -22,6 +22,7 @@
     - mainブランチの生成docs
         - [redoc](https://shunsukenonomura.github.io/sandbox_fastapi/versions/main/redoc/api.html)
         - [pytest cov](https://shunsukenonomura.github.io/sandbox_fastapi/versions/main/htmlcov)
+        - [mkdocs](https://shunsukenonomura.github.io/sandbox_fastapi/versions/main/htmlcov)
 
 ## 利用方法メモ
 ```bash
