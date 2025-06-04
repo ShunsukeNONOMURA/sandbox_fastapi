@@ -1,3 +1,4 @@
+# ghcr用イメージのビルド
 name: Build and Push Docker Image
 
 on:
@@ -30,7 +31,7 @@ jobs:
       - name: Build and push release Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: docker/release/Dockerfile
+          context: ./app
+          file: ./app/docker/release/Dockerfile
           push: true
           tags: ghcr.io/shunsukenonomura/my-app:latest

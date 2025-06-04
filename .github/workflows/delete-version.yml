@@ -1,3 +1,4 @@
+# version削除
 name: Delete Version
 
 on:
@@ -38,7 +39,7 @@ jobs:
           echo "Attempting to delete tag: $name"
           gh api -X DELETE "repos/${{ github.repository }}/git/refs/tags/$name" || echo "No such tag"
 
-      # versionsドキュメントの削除
+      # versionsディレクトリの削除
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:

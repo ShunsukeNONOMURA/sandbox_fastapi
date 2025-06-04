@@ -1,7 +1,6 @@
 # RDB
 *.sqlite3
 
-
 # local
 venv
 

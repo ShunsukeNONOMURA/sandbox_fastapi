@@ -1,3 +1,4 @@
+# gh pagesの更新
 name: Build Version gh pages
 
 on:
@@ -15,6 +16,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    # 環境準備
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -30,10 +32,11 @@ jobs:
       run: echo "PATH=$PATH:/opt/poetry/bin" >> $GITHUB_ENV
 
     - name: Install dependencies with Poetry
-      working-directory: ./volume
+      working-directory: ./app/volume
       run: |
         poetry install --no-root
 
+    # 出力設定
     - name: Set output path from ref
       id: vars
       run: |
@@ -48,7 +51,7 @@ jobs:
 
     # redocビルド
     - name: Build ReDoc
-      working-directory: ./volume
+      working-directory: ./app/volume
       run: |
         set -o allexport
         source ../.env_dev
@@ -57,7 +60,7 @@ jobs:
 
     # pytest cov ビルド
     - name: Run Pytest and generate coverage report
-      working-directory: ./volume
+      working-directory: ./app/volume
       run: |
         set -o allexport
         source ../.env_dev
@@ -65,13 +68,26 @@ jobs:
         poetry run python3 ./migrate.py
         poetry run pytest --cov=app -v --cov-report=html
 
+    # MkDocs 用 Poetry インストール
+    - name: Install docs dependencies
+      working-directory: ./docs/volume
+      run: poetry install --no-root
+
+    # MkDocs サイトビルド
+    - name: Build MkDocs site
+      working-directory: ./docs/volume
+      run: poetry run mkdocs build
+
     # pushファイル統合
     - name: Prepare deploy directory
       run: |
         mkdir -p tmp_deploy/redoc
         mkdir -p tmp_deploy/htmlcov
-        cp -r volume/docs/backend/* tmp_deploy/redoc/
-        cp -r volume/htmlcov/* tmp_deploy/htmlcov/
+        mkdir -p tmp_deploy/site
+        cp -r app/volume/docs/backend/* tmp_deploy/redoc/
+        cp -r app/volume/htmlcov/* tmp_deploy/htmlcov/
+        cp -r docs/volume/site/* tmp_deploy/site/
+
 
     # push
     - name: Deploy to GitHub Pages

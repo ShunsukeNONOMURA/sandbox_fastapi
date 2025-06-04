@@ -1,3 +1,4 @@
+# セキュリティスキャン用途想定
 name: Container Security Scan
 
 on:

@@ -1,18 +1,30 @@
-version: '3'
 services:
   # FastAPI
   app:
     build: 
-      context: .
+      context: ./app
       dockerfile: docker/dev/Dockerfile
     working_dir: '/root/volume'
     tty: true
     volumes:
-      - ./volume:/root/volume
+      - ./app/volume:/root/volume
     env_file:
-      - .env
+      - ./app/.env
     ports:
       - 8000:8000
     extra_hosts: # linux環境の場合にhost.docker.internalでhost上にアクセスするために必要
       - "host.docker.internal:host-gateway"
     command: poetry run uvicorn app.main:app --reload --host=0.0.0.0
+    
+  # mkdocs
+  docs:
+    build:
+      context: ./docs
+      dockerfile: docker/dev/Dockerfile
+    working_dir: '/root/volume'
+    tty: true
+    volumes:
+      - ./docs/volume:/root/volume
+    ports:
+      - 8001:8000
+    command: mkdocs serve
