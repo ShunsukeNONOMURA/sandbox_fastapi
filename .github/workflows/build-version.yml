@@ -8,6 +8,11 @@ on:
     tags:
       - 'v*'
 
+# 衝突更新対策
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
