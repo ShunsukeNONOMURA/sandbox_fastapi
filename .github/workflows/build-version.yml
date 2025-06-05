@@ -110,19 +110,32 @@ jobs:
     - name: Build Schemaspy
       working-directory: ./docs/volume
       run: java -jar /opt/schemaspy/schemaspy.jar -configFile schemaspy.properties
+      
 
     # pushファイル統合
     - name: Prepare deploy directory
       run: |
-        mkdir -p tmp_deploy/redoc
-        mkdir -p tmp_deploy/htmlcov
-        mkdir -p tmp_deploy/site
-        mkdir -p tmp_deploy/schemaspy
-        cp -r app/volume/docs/backend/* tmp_deploy/redoc/
-        cp -r app/volume/htmlcov/* tmp_deploy/htmlcov/
-        cp -r docs/volume/site/* tmp_deploy/site/
-        cp -r docs/volume/schemaspy/* tmp_deploy/schemaspy/
+        VERSION_DIR="tmp_deploy/versions/${{ steps.vars.outputs.output }}"
 
+        mkdir -p $VERSION_DIR/redoc
+        mkdir -p $VERSION_DIR/htmlcov
+        mkdir -p $VERSION_DIR/site
+        mkdir -p $VERSION_DIR/schemaspy
+        cp -r app/volume/docs/backend/* $VERSION_DIR/redoc/
+        cp -r app/volume/htmlcov/* $VERSION_DIR/htmlcov/
+        cp -r docs/volume/site/* $VERSION_DIR/site/
+        cp -r docs/volume/schemaspy/* $VERSION_DIR/schemaspy/
+
+    # gh-pages側の更新統合
+    - name: Checkout gh-pages
+      run: |
+        git fetch origin gh-pages
+        git checkout gh-pages
+
+    - name: Generate index.html
+      run: |
+        OUT_DIR="tmp_deploy"
+        bash ./generate-index.sh $OUT_DIR/index.html
 
     # push
     - name: Deploy to GitHub Pages
@@ -131,25 +144,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: tmp_deploy # 出力先ディレクトリ
         publish_branch: gh-pages
-        destination_dir: ${{ steps.vars.outputs.output }}
+        # destination_dir: ${{ steps.vars.outputs.output }}
         force_orphan: false
         keep_files: true
         skip_dirty_check: true
-
-
-    # indexの更新
-    - name: Checkout gh-pages
-      run: |
-        git fetch origin gh-pages
-        git checkout gh-pages
-
-    - name: Generate index.html
-      run: bash ./generate-index.sh
-
-    - name: Commit index.html
-      run: |
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
-        git add index.html
-        git commit -m "update index.html"
-        git push origin gh-pages
