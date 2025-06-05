@@ -78,7 +78,7 @@ jobs:
       working-directory: ./docs/volume
       run: poetry run mkdocs build
 
-    # schemaspy
+    # schemaspy (sqlite想定構成)
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
@@ -91,11 +91,19 @@ jobs:
         mkdir -p /opt/schemaspy 
         curl -L -o /opt/schemaspy/schemaspy.jar "https://github.com/schemaspy/schemaspy/releases/download/v6.2.4/schemaspy-6.2.4.jar"
         curl -L -o /opt/schemaspy/sqlite-jdbc.jar "https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.45.1.0/sqlite-jdbc-3.45.1.0.jar"
+        
+    # ビルド用構成コピー
+    - name: Copy SchemaSpy config files
+      run: |
+        mkdir -p /root/volume
+        mkdir -p /root/tmp
+        cp docs/volume/schemaspy.properties /root/volume/sqlite.properties
+        cp app/volume/sample_db.sqlite3 /root/tmp/sample_db.sqlite3
 
     # schemaspy ビルド
     - name: Build Schemaspy
       working-directory: ./docs/volume
-      run: java -jar /opt/schemaspy/schemaspy.jar   -configFile schemaspy.properties
+      run: java -jar /opt/schemaspy/schemaspy.jar -configFile /root/volume/sqlite.properties
 
     # pushファイル統合
     - name: Prepare deploy directory
