@@ -8,7 +8,7 @@ echo '<!DOCTYPE html>' > $OUTPUT
 echo '<html lang="ja"><head><meta charset="UTF-8"><title>ドキュメントバージョン一覧</title></head><body>' >> $OUTPUT
 echo '<h1>ドキュメントバージョン一覧</h1><ul>' >> $OUTPUT
 
-find "$VERSIONS_DIR" -mindepth 1 -maxdepth 1 -type d | sort -V | while read version_dir; do
+find "$VERSIONS_DIR" -mindepth 1 -maxdepth 2 -type d | sort -V | while read version_dir; do
   # フィルタ条件：最低1つのバージョン用サブディレクトリが存在する
   has_content=false
   [[ -d "$version_dir/site" ]] && has_content=true
