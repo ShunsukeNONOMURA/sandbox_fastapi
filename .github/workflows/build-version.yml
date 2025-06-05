@@ -95,15 +95,13 @@ jobs:
     # ビルド用構成コピー
     - name: Copy SchemaSpy config files
       run: |
-        mkdir -p /root/volume
-        mkdir -p /root/tmp
-        cp docs/volume/schemaspy.properties /root/volume/sqlite.properties
-        cp app/volume/sample_db.sqlite3 /root/tmp/sample_db.sqlite3
+        mkdir -p /tmp
+        cp app/volume/sample_db.sqlite3 /tmp/sample_db.sqlite3
 
     # schemaspy ビルド
     - name: Build Schemaspy
       working-directory: ./docs/volume
-      run: java -jar /opt/schemaspy/schemaspy.jar -configFile /root/volume/sqlite.properties
+      run: java -jar /opt/schemaspy/schemaspy.jar -configFile sqlite.properties
 
     # pushファイル統合
     - name: Prepare deploy directory

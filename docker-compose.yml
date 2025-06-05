@@ -25,7 +25,7 @@ services:
     tty: true
     volumes:
       - ./docs/volume:/root/volume
-      - ./app/volume/sample_db.sqlite3:/root/tmp/sample_db.sqlite3 # schemaspy用
+      - ./app/volume/sample_db.sqlite3:/tmp/sample_db.sqlite3 # schemaspy用
     ports:
       - 8001:8000
     command: mkdocs serve
