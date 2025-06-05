@@ -13,6 +13,7 @@ gradio = "^5.31.0"
 pyarmor = "^9.1.7"
 fastapi-mcp = "^0.3.4"
 sqlmodel = "^0.0.24"
+neo4j = "^5.28.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.0"
