@@ -1,6 +1,5 @@
 #!/bin/bash
-
-OUTPUT=index.html
+OUTPUT=${1:-index.html}  # ← 引数がなければ index.html に出力
 VERSIONS_DIR=versions
 BASE_URL=$(basename `git config --get remote.origin.url` .git)
 
