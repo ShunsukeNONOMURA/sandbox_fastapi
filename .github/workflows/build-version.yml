@@ -98,3 +98,21 @@ jobs:
         publish_branch: gh-pages
         destination_dir: ${{ steps.vars.outputs.output }}
         force_orphan: false
+
+
+    # indexの更新
+    - name: Checkout gh-pages
+      run: |
+        git fetch origin gh-pages
+        git checkout gh-pages
+
+    - name: Generate index.html
+      run: bash ./generate-index.sh
+
+    - name: Commit index.html
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add index.html
+        git commit -m "update index.html"
+        git push origin gh-pages
