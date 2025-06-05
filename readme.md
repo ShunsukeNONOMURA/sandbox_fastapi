@@ -3,6 +3,7 @@
 ## 実験項目
 - pyarmor難読化
 - fastapi-mcp対応
+- neo4j起動
 - github actions CI
     - コンテナイメージのghcrへの公開
     - ghpagesへのビルドドキュメント公開
