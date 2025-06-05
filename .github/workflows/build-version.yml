@@ -78,15 +78,36 @@ jobs:
       working-directory: ./docs/volume
       run: poetry run mkdocs build
 
+    # schemaspy
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    
+    # schemaspy バイナリ追加
+    - name: Download SchemaSpy and SQLite JDBC
+      run: |
+        mkdir -p /opt/schemaspy 
+        curl -L -o /opt/schemaspy /schemaspy.jar https://github.com/schemaspy/schemaspy/releases/download/v6.2.4/schemaspy-6.2.4.jar
+        curl -L -o /opt/schemaspy /sqlite-jdbc.jar https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.45.1.0/sqlite-jdbc-3.45.1.0.jar
+
+    # schemaspy ビルド
+    - name: Build MkDocs site
+      working-directory: ./docs/volume
+      run: java -jar /opt/schemaspy/schemaspy.jar   -configFile /root/volume/schemaspy.properties
+
     # pushファイル統合
     - name: Prepare deploy directory
       run: |
         mkdir -p tmp_deploy/redoc
         mkdir -p tmp_deploy/htmlcov
         mkdir -p tmp_deploy/site
+        mkdir -p tmp_deploy/schemaspy
         cp -r app/volume/docs/backend/* tmp_deploy/redoc/
         cp -r app/volume/htmlcov/* tmp_deploy/htmlcov/
         cp -r docs/volume/site/* tmp_deploy/site/
+        cp -r docs/volume/schemaspy/* tmp_deploy/schemaspy/
 
 
     # push
