@@ -15,6 +15,8 @@ services:
     extra_hosts: # linux環境の場合にhost.docker.internalでhost上にアクセスするために必要
       - "host.docker.internal:host-gateway"
     command: poetry run uvicorn app.main:app --reload --host=0.0.0.0
+    networks:
+      - backend
 
   # mkdocs
   docs:
@@ -29,3 +31,23 @@ services:
     ports:
       - 8001:8000
     command: mkdocs serve
+    networks:
+      - backend
+
+  # neo4j
+  search:
+    build:
+      context: ./search
+      dockerfile: docker/dev/Dockerfile
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=neo4j/password
+    volumes:
+      - ./search/data:/data
+    networks:
+      - backend
+
+networks:
+  backend:
