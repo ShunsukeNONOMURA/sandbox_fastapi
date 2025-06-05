@@ -17,12 +17,8 @@
     - https://github.com/ShunsukeNONOMURA/sandbox_fastapi
 - gh cr の公開コンテナ
     - https://github.com/users/ShunsukeNONOMURA/packages/container/package/my-app
-- gh pages
-    - [pagesのブランチ](https://github.com/ShunsukeNONOMURA/sandbox_fastapi/tree/gh-pages)
-    - mainブランチの生成docs
-        - [redoc](https://shunsukenonomura.github.io/sandbox_fastapi/versions/main/redoc/api.html)
-        - [pytest cov](https://shunsukenonomura.github.io/sandbox_fastapi/versions/main/htmlcov)
-        - [mkdocs](https://shunsukenonomura.github.io/sandbox_fastapi/versions/main/site)
+- [gh pages](https://shunsukenonomura.github.io/sandbox_fastapi)
+- [pagesのブランチ](https://github.com/ShunsukeNONOMURA/sandbox_fastapi/tree/gh-pages)
 
 ## 利用方法メモ
 ```bash
