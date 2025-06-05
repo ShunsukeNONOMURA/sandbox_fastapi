@@ -12,6 +12,7 @@ find "$VERSIONS_DIR" -mindepth 1 -maxdepth 2 -type d | sort -V | while read vers
   # フィルタ条件：最低1つのバージョン用サブディレクトリが存在する
   has_content=false
   [[ -d "$version_dir/site" ]] && has_content=true
+  [[ -d "$version_dir/schemaspy" ]] && has_content=true
   [[ -d "$version_dir/redoc" ]] && has_content=true
   [[ -d "$version_dir/htmlcov" ]] && has_content=true
 
@@ -22,6 +23,7 @@ find "$VERSIONS_DIR" -mindepth 1 -maxdepth 2 -type d | sort -V | while read vers
 
   echo "<li><strong>$version_path</strong><ul>" >> $OUTPUT
   [[ -d "$version_dir/site" ]] && echo "<li><a href=\"$BASE/site/\">📘 MkDocs</a></li>" >> $OUTPUT
+  [[ -f "$version_dir/schemaspy/index.html" ]] && echo "<li><a href=\"$BASE/schemaspy/index.html\">🗂 SchemaSpy</a></li>" >> $OUTPUT
   [[ -f "$version_dir/redoc/api.html" ]] && echo "<li><a href=\"$BASE/redoc/api.html\">📕 ReDoc</a></li>" >> $OUTPUT
   [[ -d "$version_dir/htmlcov" ]] && echo "<li><a href=\"$BASE/htmlcov/\">📊 Coverage</a></li>" >> $OUTPUT
   echo "</ul></li>" >> $OUTPUT
