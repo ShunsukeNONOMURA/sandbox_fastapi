@@ -93,9 +93,9 @@ jobs:
         curl -L -o /opt/schemaspy/sqlite-jdbc.jar "https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.45.1.0/sqlite-jdbc-3.45.1.0.jar"
 
     # schemaspy ビルド
-    - name: Build MkDocs site
+    - name: Build Schemaspy
       working-directory: ./docs/volume
-      run: java -jar /opt/schemaspy/schemaspy.jar   -configFile /root/volume/schemaspy.properties
+      run: java -jar /opt/schemaspy/schemaspy.jar   -configFile schemaspy.properties
 
     # pushファイル統合
     - name: Prepare deploy directory
