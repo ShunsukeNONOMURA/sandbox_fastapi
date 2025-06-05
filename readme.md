@@ -25,6 +25,14 @@
 - [gh pages](https://shunsukenonomura.github.io/sandbox_fastapi)
 - [pagesのブランチ](https://github.com/ShunsukeNONOMURA/sandbox_fastapi/tree/gh-pages)
 
+## 構成
+| パス               | 内容                   |
+| ------------------ | ---------------------- |
+| /app               | fastapiバックエンド    |
+| /docs              | mkdocs + schemaspy環境 |
+| /docker-compose.yml | 開発環境起動用設定     |
+
+
 ## 利用方法メモ
 ```bash
 # dev
