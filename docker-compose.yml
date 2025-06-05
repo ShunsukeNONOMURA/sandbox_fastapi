@@ -15,7 +15,7 @@ services:
     extra_hosts: # linux環境の場合にhost.docker.internalでhost上にアクセスするために必要
       - "host.docker.internal:host-gateway"
     command: poetry run uvicorn app.main:app --reload --host=0.0.0.0
-    
+
   # mkdocs
   docs:
     build:
@@ -25,6 +25,7 @@ services:
     tty: true
     volumes:
       - ./docs/volume:/root/volume
+      - ./app/volume/sample_db.sqlite3:/root/tmp/sample_db.sqlite3 # schemaspy用
     ports:
       - 8001:8000
     command: mkdocs serve

@@ -206,6 +206,23 @@ python-dateutil = ">=2.8.1"
 dev = ["flake8", "markdown", "twine", "wheel"]
 
 [[package]]
+name = "graphviz"
+version = "0.20.3"
+description = "Simple Python interface for Graphviz"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "graphviz-0.20.3-py3-none-any.whl", hash = "sha256:81f848f2904515d8cd359cc611faba817598d2feaac4027b266aa3eda7b3dde5"},
+    {file = "graphviz-0.20.3.zip", hash = "sha256:09d6bc81e6a9fa392e7ba52135a9d49f1ed62526f96499325930e87ca1b5925d"},
+]
+
+[package.extras]
+dev = ["flake8", "pep8-naming", "tox (>=3)", "twine", "wheel"]
+docs = ["sphinx (>=5,<7)", "sphinx-autodoc-typehints", "sphinx-rtd-theme"]
+test = ["coverage", "pytest (>=7,<8.1)", "pytest-cov", "pytest-mock (>=3)"]
+
+[[package]]
 name = "hjson"
 version = "3.1.0"
 description = "Hjson, a user interface for JSON."
@@ -875,4 +892,4 @@ bracex = ">=2.1.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "1cf1b003865dda78859df4547233d01f8585758f6c6f4d65a10855e8b02f0937"
+content-hash = "b2136bf1674461ec849b094fb6d7d4d5f54ea58fee96e84396f43492e89dc8d7"
