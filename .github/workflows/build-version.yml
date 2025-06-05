@@ -133,6 +133,8 @@ jobs:
         publish_branch: gh-pages
         destination_dir: ${{ steps.vars.outputs.output }}
         force_orphan: false
+        keep_files: true
+        skip_dirty_check: true
 
 
     # indexの更新
