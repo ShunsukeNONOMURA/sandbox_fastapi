@@ -84,6 +84,9 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
+
+    - name: Install Graphviz (for SchemaSpy)
+      run: sudo apt-get update && sudo apt-get install -y graphviz
     
     # schemaspy バイナリ追加
     - name: Download SchemaSpy and SQLite JDBC

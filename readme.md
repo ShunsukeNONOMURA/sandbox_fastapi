@@ -7,6 +7,11 @@
     - コンテナイメージのghcrへの公開
     - ghpagesへのビルドドキュメント公開
         - `/{ブランチ}/{ビルド項目}` で分離
+        - 対象
+            - mkdocs
+            - schemaspy(sqlite)
+            - redoc
+            - pytest cov
     - [手動掃除](https://github.com/ShunsukeNONOMURA/sandbox_fastapi/actions/workflows/delete-version.yml)
         - ブランチ名orタグ名指定
         - ブランチorタグ削除
