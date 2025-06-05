@@ -1,7 +1,7 @@
 #!/bin/bash
 
-OUTPUT=tmp_deploy/index.html
-VERSIONS_DIR=tmp_deploy/versions
+OUTPUT=index.html
+VERSIONS_DIR=versions
 
 echo '<!DOCTYPE html>' > $OUTPUT
 echo '<html lang="ja"><head><meta charset="UTF-8"><title>ドキュメントバージョン一覧</title></head><body>' >> $OUTPUT
