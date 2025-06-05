@@ -9,6 +9,15 @@ echo '<html lang="ja"><head><meta charset="UTF-8"><title>ドキュメントバ�
 echo '<h1>ドキュメントバージョン一覧</h1><ul>' >> $OUTPUT
 
 for version_dir in $(find $VERSIONS_DIR -mindepth 1 -maxdepth 10 -type d); do
+  # フィルタ条件：最低1つのバージョン用サブディレクトリが存在する
+  has_content=false
+  [[ -d "$version_dir/site" ]] && has_content=true
+  [[ -d "$version_dir/redoc" ]] && has_content=true
+  [[ -d "$version_dir/htmlcov" ]] && has_content=true
+
+  $has_content || continue
+
+  # リンク
   version_path=${version_dir#$VERSIONS_DIR/}  # versions/ を除去
   BASE="/$BASE_URL/$VERSIONS_DIR/$version_path"
 
