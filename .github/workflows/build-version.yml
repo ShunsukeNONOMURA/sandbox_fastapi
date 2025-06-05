@@ -101,7 +101,7 @@ jobs:
     # schemaspy ビルド
     - name: Build Schemaspy
       working-directory: ./docs/volume
-      run: java -jar /opt/schemaspy/schemaspy.jar -configFile sqlite.properties
+      run: java -jar /opt/schemaspy/schemaspy.jar -configFile schemaspy.properties
 
     # pushファイル統合
     - name: Prepare deploy directory
