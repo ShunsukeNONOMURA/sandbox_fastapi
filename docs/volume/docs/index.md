@@ -1,4 +1,4 @@
 # 目次
-main
+main build
 ほげほげ
 ふがふが
