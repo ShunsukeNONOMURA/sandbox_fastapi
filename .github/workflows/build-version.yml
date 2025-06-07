@@ -52,7 +52,12 @@ jobs:
         else
           name="unknown"
         fi
-        echo "output=versions/${name}" >> "$GITHUB_OUTPUT"
+        root_dir="tmp_deploy"
+        version_dir="$root_dir/versions/$name"
+
+        echo "root_dir=$root_dir" >> "$GITHUB_OUTPUT"
+        echo "version_dir=$version_dir" >> "$GITHUB_OUTPUT"
+        echo "output_name=$name" >> "$GITHUB_OUTPUT"
 
     # redocビルド
     - name: Build ReDoc
@@ -115,7 +120,7 @@ jobs:
     # pushファイル統合
     - name: Prepare deploy directory
       run: |
-        VERSION_DIR="tmp_deploy/versions/${{ steps.vars.outputs.output }}"
+        VERSION_DIR="${{ steps.vars.outputs.version_dir }}"
 
         mkdir -p $VERSION_DIR/redoc
         mkdir -p $VERSION_DIR/htmlcov
@@ -134,7 +139,7 @@ jobs:
 
     - name: Generate index.html
       run: |
-        OUT_DIR="tmp_deploy"
+        OUT_DIR="${{ steps.vars.outputs.root_dir }}"
         bash ./generate-index.sh $OUT_DIR/index.html
 
     # push
@@ -144,7 +149,6 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: tmp_deploy # 出力先ディレクトリ
         publish_branch: gh-pages
-        # destination_dir: ${{ steps.vars.outputs.output }}
         force_orphan: false
         keep_files: true
         skip_dirty_check: true
