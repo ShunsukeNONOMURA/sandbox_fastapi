@@ -130,7 +130,7 @@ jobs:
         # ファイル順番が重要なら ls順指定 or 明示リスト
         pandoc manual/*.md -o manual-output/manual.pdf --pdf-engine=xelatex --toc --toc-depth=2 -V mainfont="Noto Sans CJK JP"
         pandoc manual/*.md -o manual-output/manual.html --toc --toc-depth=2
-        cp -r manual/imgs docs/volume/manual-output/
+        cp -r manual/imgs manual-output/
 
 
     # pushファイル統合
