@@ -118,7 +118,9 @@ jobs:
 
     # manual ビルド
     - name: Install pandoc
-      run: sudo apt-get update && sudo apt-get install -y pandoc
+      run: |
+        sudo apt-get update && sudo apt-get install -y pandoc
+        sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended
 
     - name: Build manual (HTML and PDF)
       working-directory: ./docs/volume
