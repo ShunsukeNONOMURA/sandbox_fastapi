@@ -115,7 +115,18 @@ jobs:
     - name: Build Schemaspy
       working-directory: ./docs/volume
       run: java -jar /opt/schemaspy/schemaspy.jar -configFile schemaspy.properties
-      
+
+    # manual ビルド
+    - name: Install pandoc
+      run: sudo apt-get update && sudo apt-get install -y pandoc
+
+    - name: Build manual (HTML and PDF)
+      working-directory: ./docs/volume
+      run: |
+        mkdir -p manual-output
+        # ファイル順番が重要なら ls順指定 or 明示リスト
+        pandoc manual/*.md -o manual-output/manual.html --toc --toc-depth=2
+        pandoc manual/*.md -o manual-output/manual.pdf --toc --toc-depth=2
 
     # pushファイル統合
     - name: Prepare deploy directory
@@ -126,10 +137,14 @@ jobs:
         mkdir -p $VERSION_DIR/htmlcov
         mkdir -p $VERSION_DIR/site
         mkdir -p $VERSION_DIR/schemaspy
+        mkdir -p $VERSION_DIR/manual-html
+        mkdir -p $VERSION_DIR/manual-pdf
         cp -r app/volume/docs/backend/* $VERSION_DIR/redoc/
         cp -r app/volume/htmlcov/* $VERSION_DIR/htmlcov/
         cp -r docs/volume/site/* $VERSION_DIR/site/
         cp -r docs/volume/schemaspy/* $VERSION_DIR/schemaspy/
+        cp docs/volume/manual-output/manual.html $VERSION_DIR/manual-html/
+        cp docs/volume/manual-output/manual.pdf $VERSION_DIR/manual-pdf/
 
     # gh-pages側の更新統合
     - name: Checkout gh-pages
