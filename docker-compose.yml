@@ -34,6 +34,23 @@ services:
     networks:
       - backend
 
+  # rdb
+  rdb:
+    build:
+      context: ./rdb
+      dockerfile: docker/dev/Dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      # ストレージのマウント
+      - ./rdb/data:/var/lib/postgresql/data
+    command: ["postgres", "-c", "shared_preload_libraries=age"]
+    networks:
+      - backend
+
   # neo4j
   search:
     build:
