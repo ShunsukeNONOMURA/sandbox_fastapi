@@ -2,6 +2,8 @@
 
 これは第1章の内容です。
 
+![](./imgs/sample.dio.png)
+
 Markdownの基本的な書き方の例：
 
 - 箇条書き
