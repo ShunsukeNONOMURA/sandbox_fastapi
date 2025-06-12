@@ -120,15 +120,18 @@ jobs:
     - name: Install pandoc
       run: |
         sudo apt-get update && sudo apt-get install -y pandoc
-        sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended
+        sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended texlive-xetex
+        sudo apt-get install -y fonts-noto-cjk
 
     - name: Build manual (HTML and PDF)
       working-directory: ./docs/volume
       run: |
         mkdir -p manual-output
         # ファイル順番が重要なら ls順指定 or 明示リスト
+        pandoc manual/*.md -o manual-output/manual.pdf --pdf-engine=xelatex --toc --toc-depth=2 -V mainfont="Noto Sans CJK JP"
         pandoc manual/*.md -o manual-output/manual.html --toc --toc-depth=2
-        pandoc manual/*.md -o manual-output/manual.pdf --toc --toc-depth=2
+        cp -r docs/volume/manual/imgs docs/volume/manual-output/
+
 
     # pushファイル統合
     - name: Prepare deploy directory
@@ -139,15 +142,16 @@ jobs:
         mkdir -p $VERSION_DIR/htmlcov
         mkdir -p $VERSION_DIR/site
         mkdir -p $VERSION_DIR/schemaspy
-        mkdir -p $VERSION_DIR/manual-html
         mkdir -p $VERSION_DIR/manual-pdf
+        mkdir -p $VERSION_DIR/manual-html
         cp -r app/volume/docs/backend/* $VERSION_DIR/redoc/
         cp -r app/volume/htmlcov/* $VERSION_DIR/htmlcov/
         cp -r docs/volume/site/* $VERSION_DIR/site/
         cp -r docs/volume/schemaspy/* $VERSION_DIR/schemaspy/
-        cp docs/volume/manual-output/manual.html $VERSION_DIR/manual-html/
         cp docs/volume/manual-output/manual.pdf $VERSION_DIR/manual-pdf/
-
+        cp docs/volume/manual-output/manual.html $VERSION_DIR/manual-html/
+        cp -r docs/volume/manual-output/imgs $VERSION_DIR/manual-html/ 
+        
     # gh-pages側の更新統合
     - name: Checkout gh-pages
       run: |
