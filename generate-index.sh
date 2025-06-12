@@ -14,6 +14,8 @@ find "$VERSIONS_DIR" -mindepth 1 -maxdepth 2 -type d | sort -V | while read vers
   [[ -d "$version_dir/schemaspy" ]] && has_content=true
   [[ -d "$version_dir/redoc" ]] && has_content=true
   [[ -d "$version_dir/htmlcov" ]] && has_content=true
+  [[ -d "$version_dir/manual-html" ]] && has_content=true
+  [[ -f "$version_dir/manual-pdf/manual.pdf" ]] && has_content=true
 
   $has_content || continue
 
@@ -25,6 +27,8 @@ find "$VERSIONS_DIR" -mindepth 1 -maxdepth 2 -type d | sort -V | while read vers
   [[ -f "$version_dir/schemaspy/index.html" ]] && echo "<li><a href=\"$BASE/schemaspy/index.html\">🗂 SchemaSpy</a></li>" >> $OUTPUT
   [[ -f "$version_dir/redoc/api.html" ]] && echo "<li><a href=\"$BASE/redoc/api.html\">📕 ReDoc</a></li>" >> $OUTPUT
   [[ -d "$version_dir/htmlcov" ]] && echo "<li><a href=\"$BASE/htmlcov/\">📊 Coverage</a></li>" >> $OUTPUT
+  [[ -f "$version_dir/manual-html/manual.html" ]] && echo "<li><a href=\"$BASE/manual-html/manual.html\">📗 Manual (HTML)</a></li>" >> $OUTPUT
+  [[ -f "$version_dir/manual-pdf/manual.pdf" ]] && echo "<li><a href=\"$BASE/manual-pdf/manual.pdf\">📄 Manual (PDF)</a></li>" >> $OUTPUT
   echo "</ul></li>" >> $OUTPUT
 done
 
