@@ -1,5 +1,6 @@
 # 第1章 はじめに
 
+rerun wf
 これは第1章の内容です。
 
 ![](./imgs/sample.dio.png)
