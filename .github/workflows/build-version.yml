@@ -163,7 +163,8 @@ jobs:
     # openapi の change log の更新
     - name: Install oasdiff
       run: |
-        curl -sSL https://github.com/Tufin/oasdiff/releases/latest/download/oasdiff_Linux_x86_64.tar.gz | tar xz
+        curl -L -o oasdiff https://github.com/Tufin/oasdiff/releases/latest/download/oasdiff_Linux_x86_64
+        chmod +x oasdiff
         sudo mv oasdiff /usr/local/bin/oasdiff
 
     # change log の ビルド
