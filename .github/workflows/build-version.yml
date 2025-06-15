@@ -42,7 +42,23 @@ jobs:
         poetry install --no-root
 
     # 出力設定
-    
+    - name: Set output path from ref
+      id: vars
+      run: |
+        if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
+          name="${GITHUB_REF#refs/heads/}"
+        elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+          name="${GITHUB_REF#refs/tags/}"
+        else
+          name="unknown"
+        fi
+        root_dir="tmp_deploy"
+        version_dir="$root_dir/versions/$name"
+
+        echo "name=$name" >> "$GITHUB_OUTPUT"
+        echo "root_dir=$root_dir" >> "$GITHUB_OUTPUT"
+        echo "version_dir=$version_dir" >> "$GITHUB_OUTPUT"
+        echo "output_name=$name" >> "$GITHUB_OUTPUT"
 
     # redocビルド
     - name: Build ReDoc
