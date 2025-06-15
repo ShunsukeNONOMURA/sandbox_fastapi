@@ -42,22 +42,7 @@ jobs:
         poetry install --no-root
 
     # 出力設定
-    - name: Set output path from ref
-      id: vars
-      run: |
-        if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
-          name="${GITHUB_REF#refs/heads/}"
-        elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-          name="${GITHUB_REF#refs/tags/}"
-        else
-          name="unknown"
-        fi
-        root_dir="tmp_deploy"
-        version_dir="$root_dir/versions/$name"
-
-        echo "root_dir=$root_dir" >> "$GITHUB_OUTPUT"
-        echo "version_dir=$version_dir" >> "$GITHUB_OUTPUT"
-        echo "output_name=$name" >> "$GITHUB_OUTPUT"
+    
 
     # redocビルド
     - name: Build ReDoc
@@ -158,6 +143,36 @@ jobs:
         git fetch origin gh-pages
         git checkout gh-pages
 
+    
+    # openapi の change log の更新
+    - name: Install oasdiff
+      run: |
+        curl -sSL https://github.com/Tufin/oasdiff/releases/latest/download/oasdiff_Linux_x86_64.tar.gz | tar xz
+        sudo mv oasdiff /usr/local/bin/oasdiff
+
+    # change log の ビルド
+    - name: Generate changelog from openapi.yaml diff
+      run: |
+        # 比較元（前回）と比較先（今回）を定義
+        NAME="${{ steps.vars.outputs.name }}"
+
+        # パス定義（旧ファイルは gh-pages 側、更新ファイルは tmp_deploy 側）
+        OLD_OAS="versions/$NAME/redoc/openapi.yaml"
+        NEW_OAS="tmp_deploy/versions/$NAME/redoc/openapi.yaml"
+
+        # タイムスタンプを生成
+        timestamp=$(date +"%Y-%m-%dT%H-%M-%S")
+        CHANGELOG_DIR="tmp_deploy/versions/$NAME/redoc/changelog"
+        mkdir -p "$CHANGELOG_DIR"
+
+        # 差分を生成（エラー時は空差分扱い）
+        if [ -f "$OLD_OAS" ] && [ -f "$NEW_OAS" ]; then
+          oasdiff diff "$OLD_OAS" "$NEW_OAS" --format markdown > "$CHANGELOG_DIR/$timestamp.md" || echo "No diff"
+        else
+          echo "Missing one of the OpenAPI files. Skipping diff."
+        fi
+
+    # gh-pagesのindex生成
     - name: Generate index.html
       run: |
         OUT_DIR="${{ steps.vars.outputs.root_dir }}"
