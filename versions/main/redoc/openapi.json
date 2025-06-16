@@ -24,6 +24,25 @@
         }
       }
     },
+    "/users": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create User",
+        "operationId": "create_user_users_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/{user_id}": {
       "get": {
         "tags": [
