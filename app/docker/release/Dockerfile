@@ -1,5 +1,5 @@
 # ----------- Build stage -------------
-FROM python:3.10-slim AS builder
+FROM python:3.13-slim AS builder
 
 # システムロケールとタイムゾーンの設定（必要な場合）
 RUN apt-get update && \
@@ -37,7 +37,7 @@ RUN pyarmor gen runtime && \
     pyarmor gen -O dist app/
 
 # ----------- Release stage -------------
-FROM python:3.10-slim
+FROM python:3.13-slim
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP:ja

@@ -9,12 +9,14 @@ from sqlmodel import Session, create_engine
 class Settings(BaseSettings):
     SQLALCHEMY_DATABASE: str
     SQLALCHEMY_DATABASE_SQLITE_URI: str
+    SQLALCHEMY_DATABASE_POSTGRES_URI: str
 
     @property
     def database_url(self) -> str:
         """SQLALCHEMY_DATABASE に基づいて適切な URI を返す."""
         db_urls = {
             "sqlite": self.SQLALCHEMY_DATABASE_SQLITE_URI,
+            "postgresql": self.SQLALCHEMY_DATABASE_POSTGRES_URI,
         }
         try:
             return db_urls[self.SQLALCHEMY_DATABASE]
